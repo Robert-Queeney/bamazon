@@ -1,7 +1,7 @@
 let mysql = require("mysql"); 
 let inquirer = require("inquirer"); 
 let consoleTable = require("console.table");
-let colors = require("colors"); 
+
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -41,7 +41,7 @@ const connection = mysql.createConnection({
                   console.log(answers);
                   console.log("choice", choice);
                   connection.query(`SELECT stock_quantity FROM products where product_name = "${choice}"`, function(err, res) {
-                    console.log(res);
+                    // console.log(res);
                     let availableQ = res[0].stock_quantity;
                     
                 });
@@ -52,14 +52,14 @@ const connection = mysql.createConnection({
                         connection.query("SELECT price FROM products", function (err, res) {
                             let total = answers.quantity * chosenItem.price;
                             console.log("Thank you for your purchase!");
-                            console.log("Your purchase total is: $" + total);
+                            console.log("Your total is: $" + total);
                             
 
                             connection.end();
                         })
 
                     } else {
-                        console.log("Insufficient quantity!".yellow);
+                        console.log("We're sorry but we dont have that many in stock.  Please enter a lower amount.");
                         connection.end();
                     }
                 };
